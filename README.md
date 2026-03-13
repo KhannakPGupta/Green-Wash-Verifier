@@ -1,4 +1,4 @@
-# 🌍 Green-Wash Verifier: Supply Chain Carbon Auditor
+## Green-Wash Verifier: Supply Chain Carbon Auditor
 
 Green-Wash Verifier is an interactive climate-tech web application that audits the carbon footprint of a product’s entire supply chain. It helps identify misleading sustainability claims (“greenwashing”) by quantifying hidden emissions across logistics routes and comparing them with cleaner alternatives.
 
@@ -6,7 +6,7 @@ Instead of only measuring emissions at the factory, this system evaluates the *f
 
 ---
 
-## 🚀 What This Project Does
+## What This Project Does
 
 This tool allows users to:
 
@@ -19,7 +19,7 @@ This turns sustainability into a **measurable, auditable, and explainable metric
 
 ---
 
-## 🧠 How It Works
+## How It Works
 
 The system is built using a clean, professional architecture:
 
@@ -41,7 +41,7 @@ The total product footprint is the sum of all legs.
 
 ---
 
-## 📊 Key Features
+## Key Features
 
 * **Multi-leg Supply Chain Modelling**
   Simulate real-world logistics: Source → Factory → Port → Retailer
@@ -60,7 +60,7 @@ The total product footprint is the sum of all legs.
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 * Python
 * Streamlit (Web UI)
@@ -70,7 +70,7 @@ The total product footprint is the sum of all legs.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 green_wash_verifier/
@@ -82,7 +82,7 @@ green_wash_verifier/
 
 ---
 
-## 🌱 Why This Matters
+## Why This Matters
 
 Many companies claim products are “eco-friendly” while ignoring emissions from global shipping and logistics. This project exposes that blind spot by making supply-chain pollution visible, measurable, and comparable.
 
@@ -95,7 +95,7 @@ Green-Wash Verifier can support:
 
 ---
 
-## 🔮 Future Improvements
+## Future Improvements
 
 * Automatic greenwashing risk score
 * Route anomaly detection
@@ -104,7 +104,7 @@ Green-Wash Verifier can support:
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 Built as a climate-tech data science project focused on transparency, accountability, and real-world impact.
 
