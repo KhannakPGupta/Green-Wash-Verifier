@@ -1,7 +1,10 @@
 import streamlit as st              #Streamlit is used for building web app UI using Python
 import plotly.express as px         #Plotly is used to create interactive graphs
 import pandas as pd
-from Engine import CarbonEngine
+
+#Connecting app (frontend) to both APIs
+from carbon_engine import CarbonEngine
+from route_service import get_distance
 
 #Creating Page Configuration
 st.set_page_config(page_title="EcoTrack Supply Chain", layout="wide")
@@ -9,6 +12,15 @@ st.title("🚢 Green-Wash Verifier: Supply Chain Auditor")
 
 #Initialising the Engine - Contains emission factors, calculation logic, graph-building logic
 engine = CarbonEngine()
+
+#Transport modes supported by climatiq API
+TRANSPORT_MODES = [
+    "Rail",
+    "Cargo Ship",
+    "Diesel Truck",
+    "Electric Truck",
+    "Air Freight"
+]
 
 #Inputs for Sidebar
 st.sidebar.header("Product Configuration")
