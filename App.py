@@ -39,18 +39,36 @@ with col1:
 
     #Leg 1 - Raw Material to Factory
     st.markdown("---")
-    dist1 = st.number_input("Source to Factory (km)", value=500)
-    mode1 = st.selectbox("Transport Mode 1", list (engine.factors.keys()), index=3)
+    st.markdown("### Source → Factory")
 
+    source_coords = st.text_input("Source Coordinates (lon,lat)", "77.59,12.97")
+    factory_coords = st.text_input("Factory Coordinates (lon,lat)", "72.87,19.07")
+    
+    try:
+        source_coords_list = [float(x) for x in source_coords.split(",")]
+        factory_coords_list = [float(x) for x in factory_coords.split(",")]
+
+        dist1 = get_distance(source_coords_list, factory_coords_list)
+        st.success(f"Distance: {dist1} km")
+
+    except:
+        dist1 = 0
+        st.error("Invalid coordinates format. Use: lon,lat")
+
+    mode1 = st.selectbox("Transport Mode 1", TRANSPORT_MODES, index=3)
     #Leg 2 - Factory to Port
     st.markdown("---")
+    st.markdown("### Port → Retailer")
+
     dist2 = st.number_input("Factory to Port (km)", value=200)
-    mode2 = st.selectbox("Transport Mode 2", list (engine.factors.keys()), index=2)
+    mode2 = st.selectbox("Transport Mode 2", TRANSPORT_MODES, index=2)
 
     #Leg 3 - Port to Retailer
     st.markdown("---")
+    st.markdown("### Port → Retailer")
+
     dist3 = st.number_input("Port to Retailer (km)", value=10000)
-    mode3 = st.selectbox("Transport Mode 3", list (engine.factors.keys()), index=0)
+    mode3 = st.selectbox("Transport Mode 3", TRANSPORT_MODES, index=0)
 
 #Building the data structure
 journey = [
