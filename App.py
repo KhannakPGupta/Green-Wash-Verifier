@@ -51,9 +51,12 @@ with col1:
         dist1 = get_distance(source_coords_list, factory_coords_list)
         st.success(f"Distance: {dist1} km")
 
-    except:
+    except ValueError:
         dist1 = 0
         st.error("Invalid coordinates format. Use: lon,lat")
+    except Exception as e:
+        dist1 = 0
+        st.error(f"API Error calculating distance: {e}")
 
     mode1 = st.selectbox("Transport Mode 1", TRANSPORT_MODES, index=3)
     #Leg 2 - Factory to Port
@@ -77,7 +80,11 @@ journey = [
     {"from":"Port","to":"Retailer","dist":dist3,"mode":mode3}]
 
 #Run Calculation (Calculation using the formula used in Engine.py)
-graph, total_co2 = engine.run_study(weight, journey)
+try:
+    graph, total_co2 = engine.run_study(weight, journey)
+except Exception as e:
+    st.error(f"Climatiq API Error: {e}")
+    st.stop()
 
 #Column 2 is for results
 with col2:
