@@ -47,5 +47,7 @@ def get_transport_emissions(mode,distance,weight):
         return fallback[mode]*distance*weight
     except requests.exceptions.ConnectionError:
         return fallback[mode]*distance*weight
-    except Exception:
+    except Exception as e:
+        import streamlit as st
+        st.error(f"Climatiq API Error ({mode}): {e}")
         return fallback[mode]*distance*weight

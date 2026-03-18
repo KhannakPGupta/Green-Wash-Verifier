@@ -20,8 +20,10 @@ def get_distance(start_coords,end_coords):
 
         #Drills through nested response layers of API. Returns distance in m converted to km
         distance=data["routes"][0]["summary"]["distance"]/1000
-    except Exception:
+    except Exception as e:
         #Fallback distance if API fails to prevent App.py misleading error
+        import streamlit as st
+        st.error(f"OpenRouteService API Error: {e}")
         distance = 2500.0
 
     return round(distance,2)

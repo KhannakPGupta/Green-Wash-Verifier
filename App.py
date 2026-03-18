@@ -80,11 +80,7 @@ journey = [
     {"from":"Port","to":"Retailer","dist":dist3,"mode":mode3}]
 
 #Run Calculation (Calculation using the formula used in Engine.py)
-try:
-    graph, total_co2 = engine.run_study(weight, journey)
-except Exception as e:
-    st.error(f"Climatiq API Error: {e}")
-    st.stop()
+graph, total_co2 = engine.run_study(weight, journey)
 
 #Column 2 is for results
 with col2:
