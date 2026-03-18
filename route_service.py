@@ -11,7 +11,7 @@ def get_distance(start_coords,end_coords):
     payload={"coordinates":[start_coords,end_coords]}
 
     #Hits API - send data to url and waits for reply
-    response=requests.post(url,json=payload,headers=headers)
+    response=requests.post(url,json=payload,headers=headers, timeout=5)
 
     #Converts raw text response to Python dictionary for easy access
     data =response.json
