@@ -2,7 +2,5 @@ streamlit
 plotly
 pandas
 networkx
-<<<<<<< HEAD
-=======
 requests
->>>>>>> 5ef6ee0 (Updated app UI and dependencies for API integration)
+
