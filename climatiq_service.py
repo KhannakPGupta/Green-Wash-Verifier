@@ -28,6 +28,6 @@ def get_transport_emissions(mode,distance,weight):
         }
     }
 
-    response = requests.post(url, json=payload, headers=headers)
+    response = requests.post(url, json=payload, headers=headers, timeout=5)
     result = response.json()
     return result["co2e"]       #Extracts and returns CO2 equivalent in kg 
