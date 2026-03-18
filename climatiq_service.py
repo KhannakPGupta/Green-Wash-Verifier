@@ -5,11 +5,11 @@ def get_transport_emissions(mode,distance,weight):
 
     #Translates human-friendly transport names into specific activity_id strings required by the Climatiq API
     mode_map = {
-        "Rail": "freight_train",
-        "Cargo Ship": "freight_ship",
-        "Diesel Truck": "freight_truck",
-        "Electric Truck": "freight_truck",
-        "Air Freight": "freight_plane"
+        "Rail": "freight_train-route_type_na-fuel_type_na",
+        "Cargo Ship": "sea_freight-vessel_type_container-distance_uplift_included",
+        "Diesel Truck": "freight_vehicle-vehicle_type_truck_transportation-fuel_source_diesel-vehicle_weight_na-percentage_load_na-load_type_na-distance_uplift_na",
+        "Electric Truck": "freight_vehicle-vehicle_type_truck_transportation-fuel_source_electricity-vehicle_weight_na-percentage_load_na-load_type_na-distance_uplift_na",
+        "Air Freight": "freight_flight-route_type_na-distance_na-weight_na-rf_na"
     }
 
     fallback = {
@@ -27,8 +27,7 @@ def get_transport_emissions(mode,distance,weight):
         #The data
         payload = {
             "emission_factor": {
-                "activity_id": mode_map[mode],
-                "data_version": "^7"    # ^ symbol tells API to use latest dynamic version of emission data
+                "activity_id": mode_map[mode]
             },
             "parameters": {
                 "distance": distance,
