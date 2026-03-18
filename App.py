@@ -58,7 +58,7 @@ with col1:
     mode1 = st.selectbox("Transport Mode 1", TRANSPORT_MODES, index=3)
     #Leg 2 - Factory to Port
     st.markdown("---")
-    st.markdown("### Port → Retailer")
+    st.markdown("### Factory → Port")
 
     dist2 = st.number_input("Factory to Port (km)", value=200)
     mode2 = st.selectbox("Transport Mode 2", TRANSPORT_MODES, index=2)
