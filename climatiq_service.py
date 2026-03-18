@@ -12,7 +12,7 @@ def get_transport_emissions(mode,distance,weight):
         "Air Freight": "freight_plane"
     }
 
-    url = "https://beta3.api.climatiq.io/estimate"
+    url = "https://api.climatiq.io/data/v1/estimate"
     headers={"Authorization":f"Bearer {CLIMATIQ_KEY}"}   #Bearer Token Authentication
 
     #The data
