@@ -22,7 +22,7 @@ def get_transport_emissions(mode,distance,weight):
     
     try:
         url = "https://beta3.api.climatiq.io/estimate"
-        headers={"Authorization":f"Bearer{CLIMATIQ_KEY}"}   #Bearer Token Authentication
+        headers={"Authorization":f"Bearer {CLIMATIQ_KEY}"}   #Bearer Token Authentication
 
         #The data
         payload = {

@@ -15,16 +15,16 @@ class CarbonEngine:
                 weight
             )
 
-        total_carbon += emissions
+            total_carbon += emissions
 
-        #Draws a line in network map between from and to locations
-        G.add_edge(
-                leg["from"],
-                leg["to"],
-                mode=leg["mode"],
-                carbon=round(emissions,2),
-                dist=leg["dist"]
-            )
+            #Draws a line in network map between from and to locations
+            G.add_edge(
+                    leg["from"],
+                    leg["to"],
+                    mode=leg["mode"],
+                    carbon=round(emissions,2),
+                    dist=leg["dist"]
+                )
         
         return G, round(total_carbon,2)
 
