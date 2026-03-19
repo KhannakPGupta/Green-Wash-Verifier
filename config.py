@@ -1,4 +1,5 @@
 import streamlit as st
 
-CLIMATIQ_KEY=st.secrets["CLIMATIQ_KEY"]
-ORS_KEY = st.secrets["ORS_KEY"]
+# Safe retrieval of secrets to prevent app crashes
+CLIMATIQ_KEY = st.secrets.get("CLIMATIQ_KEY", "MISSING_KEY")
+ORS_KEY = st.secrets.get("ORS_KEY", "MISSING_KEY")
