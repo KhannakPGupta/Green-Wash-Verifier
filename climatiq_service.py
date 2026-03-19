@@ -3,15 +3,18 @@ from config import CLIMATIQ_KEY
 
 def get_transport_emissions(mode,distance,weight):
 
-    #Translates human-friendly transport names into specific activity_id strings required by the Climatiq API
+    # Translates human-friendly transport names into specific activity_id strings required by the Climatiq API
+    # Updated to more standard IDs that are less likely to break
     mode_map = {
         "Rail": "freight_train-route_type_na-fuel_type_na",
         "Cargo Ship": "sea_freight-vessel_type_container-distance_uplift_included",
-        "Diesel Truck": "freight_vehicle-vehicle_type_truck_transportation-fuel_source_diesel-vehicle_weight_na-percentage_load_na-load_type_na-distance_uplift_na",
-        "Electric Truck": "freight_vehicle-vehicle_type_truck_transportation-fuel_source_electricity-vehicle_weight_na-percentage_load_na-load_type_na-distance_uplift_na",
+        "Diesel Truck": "freight_vehicle-vehicle_type_truck_transport-fuel_source_diesel-vehicle_weight_na-percentage_load_na",
+        "Electric Truck": "freight_vehicle-vehicle_type_truck_transport-fuel_source_electricity-vehicle_weight_na-percentage_load_na",
         "Air Freight": "freight_flight-route_type_na-distance_na-weight_na-rf_na"
     }
 
+    # Fallback factors (kg CO2e per tonne-km)
+    # The formula (factor * dist * weight) with these factors results in grams.
     fallback = {
             "Rail": 0.02,
             "Cargo Ship": 0.015,
@@ -22,12 +25,12 @@ def get_transport_emissions(mode,distance,weight):
     
     try:
         url = "https://api.climatiq.io/data/v1/estimate"
-        headers={"Authorization":f"Bearer {CLIMATIQ_KEY}"}   #Bearer Token Authentication
+        headers={"Authorization":f"Bearer {CLIMATIQ_KEY}"}
 
-        #The data
         payload = {
             "emission_factor": {
-                "activity_id": mode_map[mode]
+                "activity_id": mode_map[mode],
+                "data_version": "^7"  # Ensures compatibility with latest database
             },
             "parameters": {
                 "distance": distance,
@@ -38,15 +41,17 @@ def get_transport_emissions(mode,distance,weight):
         }
         
         response = requests.post(url, json=payload, headers=headers, timeout=5)
-        response.raise_for_status()
-        result = response.json()
-        return result["co2e"]       #Extracts and returns CO2 equivalent in kg 
+        
+        # If the request failed, raise an exception to trigger the fallback
+        if response.status_code != 200:
+            error_msg = response.json().get("error", {}).get("message", response.text)
+            raise Exception(f"{response.status_code} - {error_msg}")
 
-    except requests.exceptions.Timeout:
-        return fallback[mode]*distance*weight
-    except requests.exceptions.ConnectionError:
-        return fallback[mode]*distance*weight
+        result = response.json()
+        return result["co2e"] * 1000  # Convert kg CO2e to grams for frontend consistency
+
     except Exception as e:
         import streamlit as st
+        # Log error to Streamlit but continue with fallback
         st.error(f"Climatiq API Error ({mode}): {e}")
-        return fallback[mode]*distance*weight
+        return fallback[mode] * distance * weight
