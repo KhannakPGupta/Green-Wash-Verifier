@@ -8,8 +8,8 @@ def get_transport_emissions(mode,distance,weight):
     mode_map = {
         "Rail": "freight_train-route_type_na-fuel_type_na",
         "Cargo Ship": "sea_freight-vessel_type_container-distance_uplift_included",
-        "Diesel Truck": "freight_vehicle-vehicle_type_truck_transport-fuel_source_diesel-vehicle_weight_na-percentage_load_na",
-        "Electric Truck": "freight_vehicle-vehicle_type_truck_transport-fuel_source_electricity-vehicle_weight_na-percentage_load_na",
+        "Diesel Truck": "freight_vehicle-vehicle_type_truck_transportation-fuel_source_diesel",
+        "Electric Truck": "freight_vehicle-vehicle_type_truck_transportation-fuel_source_electricity",
         "Air Freight": "freight_flight-route_type_na-distance_na-weight_na-rf_na"
     }
 
@@ -29,8 +29,7 @@ def get_transport_emissions(mode,distance,weight):
 
         payload = {
             "emission_factor": {
-                "activity_id": mode_map[mode],
-                "data_version": "^7"  # Ensures compatibility with latest database
+                "activity_id": mode_map[mode]
             },
             "parameters": {
                 "distance": distance,
