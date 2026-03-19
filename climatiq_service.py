@@ -50,7 +50,10 @@ def get_transport_emissions(mode, distance, weight):
     for activity_id in candidates:
         try:
             payload = {
-                "emission_factor": {"activity_id": activity_id},
+                "emission_factor": {
+                    "activity_id": activity_id,
+                    "data_version": "^0"  # Mandatory for recent Climatiq versions
+                },
                 "parameters": {
                     "distance": distance, "distance_unit": "km",
                     "weight": weight, "weight_unit": "kg"
