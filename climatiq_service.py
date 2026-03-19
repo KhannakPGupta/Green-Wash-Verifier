@@ -42,9 +42,22 @@ def get_transport_emissions(mode,distance,weight):
         
         response = requests.post(url, json=payload, headers=headers, timeout=5)
         
-        # If the request failed, raise an exception to trigger the fallback
+        # If the request failed, try to extract error details
         if response.status_code != 200:
-            error_msg = response.json().get("error", {}).get("message", response.text)
+            try:
+                error_data = response.json()
+                if isinstance(error_data, dict):
+                    # Handle both {"error": {"message": "..."}} and {"message": "..."} formats
+                    inner_error = error_data.get("error", {})
+                    if isinstance(inner_error, dict):
+                        error_msg = inner_error.get("message", response.text)
+                    else:
+                        error_msg = error_data.get("message", response.text)
+                else:
+                    error_msg = str(error_data)
+            except Exception:
+                error_msg = response.text
+                
             raise Exception(f"{response.status_code} - {error_msg}")
 
         result = response.json()
