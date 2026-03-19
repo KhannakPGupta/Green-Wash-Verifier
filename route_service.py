@@ -4,27 +4,25 @@ from config import ORS_KEY          #Pulling API key
 #Function to get longitude and latitude
 def get_distance(start_coords,end_coords):
     url="https://api.openrouteservice.org/v2/directions/driving-car"
-    headers={"Authorization":ORS_KEY,               #Gives permission to use the service
-             "Content-Type":"application/json"}     #Informs server that data is being sent in json format
+    # Robust key handling
+    auth_header = ORS_KEY if ORS_KEY.startswith("Bearer ") else f"Bearer {ORS_KEY}"
+    headers = {"Authorization": auth_header, "Content-Type": "application/json"}
     
-    #Actual data being sent
-    payload={"coordinates":[start_coords,end_coords]}
+    # Actual data being sent
+    payload = {"coordinates": [start_coords, end_coords]}
 
     try:
-        #Hits API - send data to url and waits for reply
-        response=requests.post(url,json=payload,headers=headers, timeout=5)
-        response.raise_for_status()
+        response = requests.post(url, json=payload, headers=headers, timeout=5)
+        
+        if response.status_code != 200:
+            raise Exception(f"{response.status_code} - {response.text}")
 
-        #Converts raw text response to Python dictionary for easy access
         data = response.json()
-
-        #Drills through nested response layers of API. Returns distance in m converted to km
-        distance=data["routes"][0]["summary"]["distance"]/1000
+        distance = data["routes"][0]["summary"]["distance"] / 1000
     except Exception as e:
-        #Fallback distance if API fails to prevent App.py misleading error
         import streamlit as st
         st.error(f"OpenRouteService API Error: {e}")
         distance = 2500.0
 
-    return round(distance,2)
+    return round(distance, 2)
     
