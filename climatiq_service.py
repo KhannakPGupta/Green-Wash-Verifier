@@ -31,12 +31,12 @@ def get_transport_emissions(mode, distance, weight):
             WORKING_ID_CACHE[mode] = act_id
             return res
 
-    # 2. RUNTIME SEARCH FALLBACK (The Ultimate Fix)
+    # 2. RUNTIME SEARCH FALLBACK (Search queries for broader results)
     search_queries = {
-        "Rail": "freight rail",
-        "Cargo Ship": "cargo ship container sea freight",
-        "Diesel Truck": "diesel truck freight",
-        "Electric Truck": "electric truck freight battery electric",
+        "Rail": "rail freight",
+        "Cargo Ship": "cargo ship",
+        "Diesel Truck": "diesel truck",
+        "Electric Truck": "electric truck",
         "Air Freight": "air freight"
     }
     
@@ -44,8 +44,8 @@ def get_transport_emissions(mode, distance, weight):
     try:
         search_url = "https://api.climatiq.io/data/v1/search"
         headers = {"Authorization": f"Bearer {CLIMATIQ_KEY}"}
-        # Search for factors in the 'transport' category
-        params = {"query": query, "category": "transport", "results_per_page": 1}
+        # Broader search without category restriction
+        params = {"query": query, "results_per_page": 1}
         resp = requests.get(search_url, headers=headers, params=params, timeout=5)
         
         if resp.status_code == 200:
@@ -59,9 +59,7 @@ def get_transport_emissions(mode, distance, weight):
     except:
         pass
 
-    # 3. ABSOLUTE FALLBACK
-    import streamlit as st
-    st.warning(f"Climatiq ({mode}): Using industry standard fallback values.")
+    # 3. ABSOLUTE FALLBACK (Silent)
     return fallback_factors[mode] * distance * weight
 
 def call_climatiq(activity_id, distance, weight):
